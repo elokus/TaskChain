@@ -52,6 +52,7 @@ class Config(metaclass=Singleton):
         self.fast_llm_model = self.getenv("FAST_LLM_MODEL", "gpt-3.5-turbo")
         self.slow_llm_model = self.getenv("SLOW_LLM_MODEL", "gpt-4")
         self.openai_api_key = self.getenv("OPENAI_API_KEY", set_env=True)
+        self.serp_api_key = self.getenv("SERPAPI_API_KEY", set_env=True)
 
     def get_local_dirs(self):
         """Get root storage dir and logging dir in root path.
@@ -72,8 +73,8 @@ class Config(metaclass=Singleton):
                 os.makedirs(log_dir)
             self.set_local_memory_dir(os.path.abspath(log_dir))
 
-    def getenv(self, key: str, default: Union[str, dict] = None, set_env: bool = False) -> Union[
-        str, int, float, bool, dict]:
+    def getenv(self, key: str, default: Union[str, dict] = None, set_env: bool = True
+               ) -> Union[str, int, float, bool, dict]:
         """Get an environment variable."""
         value = self.config_file.get(key, default)
         if value:
@@ -83,7 +84,7 @@ class Config(metaclass=Singleton):
             return True
         if value == "False":
             return False
-        if set_env:
+        if set_env and value:
             os.environ[key] = value
         return value
 

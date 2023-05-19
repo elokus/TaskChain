@@ -1,84 +1,16 @@
 from __future__ import annotations
 
-from typing import Union, Optional
-
-from langchain import SerpAPIWrapper
 from langchain.agents import load_tools, initialize_agent
 from langchain.agents.types import AgentType
 from langchain.prompts import HumanMessagePromptTemplate
 from langchain.schema import BaseMemory
-from langchain.tools import BaseTool, Tool
-from pydantic import BaseModel, Field
+from langchain.tools import BaseTool
 
 from taskchain.agents.toolkits.loader import load_toolkit_by_name
 from taskchain.llm import get_basic_llm
 from taskchain.prompts.agents.loader import load_agent_prompt
-from taskchain.tools.report_issue import IssueReportTool
+from taskchain.schema.base import AgentConfig
 
-
-class AgentConfig(BaseModel):
-    """Agent configuration class.
-
-    This class is used to configure an agent.
-    """
-
-    name: str
-    description: str
-    agent_type: Union[str, None] = AgentType.ZERO_SHOT_REACT_DESCRIPTION
-    agent_path: Union[str, None] = None
-    agent_kwargs: dict = Field(default_factory=dict, description="Additional key word arguments to pass to the underlying agent.")
-
-    toolkit: Optional[str] = Field(defualt=None, description="Name of the toolkit to use for the agent.")
-    tools: list[BaseTool] = Field(default_factory=list, description="A list of tools to use for the agent.")
-    load_tools: list[str] = Field(default_factory=list, description="A list of tools to load from langchain for the agent.")
-    prompt: Optional[dict] = Field(default=None, description="Custom prompt for the agent defined as dict with keys 'prefix', 'suffix', and 'format_instructions'.")
-
-    
-DEFAULT_AGENTS = [
-    # AgentConfig(
-    #     name="ResearchAgent",
-    #     description="An Agent useful for performing research on complex or scientific topics.",
-    #     toolkit="research_toolkit",
-    # ),
-    # AgentConfig(
-    #     name="DecisionAgent",
-    #     description="An Agent useful for making a decision based on a set of information.",
-    #     toolkit="decision_toolkit",
-    # ),
-    AgentConfig(
-        name="SearchAgent",
-        description="An Agent useful for performing web search on basic questions.",
-        tools=[
-            Tool(name="Search", func=SerpAPIWrapper().run, description="useful for searching the web for information"),
-            IssueReportTool()
-        ],
-    ),
-    AgentConfig(
-        name="CodeInteractionAgent",
-        description="An Agent useful for generating or interacting with code.",
-        toolkit="code_toolkit",
-    ),
-    # AgentConfig(
-    #     name="OpenAPIAgent",
-    #     description="An Agent useful for interacting with OpenAPI specification document.",
-    #     toolkit="open_api_toolkit",
-    # ),
-    AgentConfig(
-        name="FileManagementAgent",
-        description="An Agent useful for interacting with files.",
-        toolkit="file_toolkit",
-    ),
-    # AgentConfig(
-    #     name="CSVAgent",
-    #     description="An Agent useful for interacting with CSV files.",
-    #     toolkit="csv_toolkit",
-    # ),
-    AgentConfig(
-        name="AgentGeneratorAgent",
-        description="An Agent useful for generating new Agents based on a description of requirements.",
-        toolkit="agent_generator_toolkit",
-    )
-]
 
 class AgentRegistry:
     """Agent registry class.
@@ -93,7 +25,7 @@ class AgentRegistry:
             upsert: Whether to update default agents or overwrite with provided agents list.
 
         """
-        self._agents: dict[str, AgentConfig] = {agent.name: agent for agent in DEFAULT_AGENTS}
+        self._agents: dict[str, AgentConfig] = {}
 
         if agents is not None:
             agents = {agent.name: agent for agent in agents}

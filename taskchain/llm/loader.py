@@ -4,6 +4,7 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.prompts import SystemMessagePromptTemplate, ChatPromptTemplate
+from pydantic import ValidationError
 
 from taskchain.config import Config
 
@@ -32,7 +33,12 @@ def call_expert_llm(prompt, **kwargs):
 
 
 def get_basic_llm(**kwargs):
-    return ChatOpenAI(model_name=CFG.fast_llm_model, **kwargs)
+    try:
+        return ChatOpenAI(model_name=CFG.fast_llm_model, **kwargs)
+    except ValidationError:
+        import os
+        os.environ["OPENAI_API_KEY"] = Config().openai_api_key
+        return ChatOpenAI(model_name=CFG.fast_llm_model, **kwargs)
 
 
 def get_expert_llm(**kwargs):

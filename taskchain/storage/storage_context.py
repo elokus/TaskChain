@@ -9,7 +9,6 @@ from taskchain.singleton import AbstractSingleton
 from taskchain.storage.base import BaseTaskStore, BaseProjectBoard, BaseStore, BaseTaskNetwork
 from taskchain.storage.network_graph import TaskGraph
 from taskchain.storage.task_store import TaskStore
-from taskchain.storage.utilities.project_board_loader import load_project_board
 from taskchain.task.task_node import Task
 from taskchain.task.utilities import update_relation
 
@@ -70,7 +69,11 @@ class TaskContextStore(AbstractSingleton, BaseTaskStore):
         self.task_store.load(data["task_store"])
         self.task_network.load(data["task_network"])
         if data["project_board"] != "None":
-            self.project_board = load_project_board(data["project_board"])
+            self.project_board = self._load_project_board(data["project_board"])
+
+    def _load_project_board(self, data: dict):
+        from taskchain.storage.utilities.project_board_loader import load_project_board
+        return load_project_board(data)
 
     # ===== Main interface =====
     @property

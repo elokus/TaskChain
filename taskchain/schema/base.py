@@ -4,8 +4,10 @@ import uuid
 from abc import ABC, abstractmethod
 from typing import Optional, Union, Sequence, NamedTuple
 
+from langchain.agents import AgentType
 from langchain.callbacks.manager import Callbacks
 from langchain.chains.base import Chain
+from langchain.tools import BaseTool
 from pydantic import BaseModel, Field, root_validator
 
 
@@ -73,3 +75,24 @@ class Comment(BaseModel):
 
     def __str__(self):
         return f"{self.text} ({self.date})"
+
+
+class AgentConfig(BaseModel):
+    """Agent configuration class.
+
+    This class is used to configure an agent.
+    """
+
+    name: str
+    description: str
+    agent_type: Union[str, None] = AgentType.ZERO_SHOT_REACT_DESCRIPTION
+    agent_path: Union[str, None] = None
+    agent_kwargs: dict = Field(default_factory=dict,
+                               description="Additional key word arguments to pass to the underlying agent.")
+
+    toolkit: Optional[str] = Field(defualt=None, description="Name of the toolkit to use for the agent.")
+    tools: list[BaseTool] = Field(default_factory=list, description="A list of tools to use for the agent.")
+    load_tools: list[str] = Field(default_factory=list,
+                                  description="A list of tools to load from langchain for the agent.")
+    prompt: Optional[dict] = Field(default=None,
+                                   description="Custom prompt for the agent defined as dict with keys 'prefix', 'suffix', and 'format_instructions'.")

@@ -14,7 +14,9 @@ from taskchain.schema import TaskStatus
 from taskchain.schema.base import BaseChain, BaseIssue, Issue
 from taskchain.schema.types import MessageTypes, ManagerRole, IssueTypes
 from taskchain.storage.storage_context import TaskContextStore
+from taskchain.communication.non_interactive import NonInteractiveCommunicator
 from taskchain.task import Task
+from taskchain.executor.issue_handler.simple import SimpleIssueHandler
 
 
 class PipelineManager(BaseTaskManager):
@@ -31,7 +33,7 @@ class PipelineManager(BaseTaskManager):
             startup_chains: Sequence[BaseChain] = None,
             persist_path: str = None,
             persist: bool = False,
-            role: ManagerRole = ManagerRole.EXECUTION.value,
+            role: ManagerRole = ManagerRole.SUPERVISOR.value,
             verbose: bool = False,
             **kwargs
     ):
@@ -59,6 +61,10 @@ class PipelineManager(BaseTaskManager):
 
 
         """
+        communication = communication or NonInteractiveCommunicator()
+        task_storage = task_storage or TaskContextStore()
+        issue_handler = issue_handler or SimpleIssueHandler(storage_context=task_storage)
+
         super().__init__(
             task=task,
             resources=resources,
