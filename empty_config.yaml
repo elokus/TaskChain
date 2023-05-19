@@ -1,0 +1,22 @@
+FAST_LLM_MODEL: gpt-3.5-turbo
+SMART_LLM_MODEL: gpt-4
+BROWSE_SPACY_LANGUAGE_MODEL: en_core_web_sm
+TEMPERATURE: 0
+GITHUB_API_KEY: xxxx
+GITHUB_USERNAME: xxxx
+LOCAL_INDEX_NAME: xxxx
+LOCAL_MEMORY_DIR_NAME: xxxx
+TRELLO_LABELS:
+  open: purple
+  depends: yellow
+  approval: orange
+  approved: blue
+  done: green
+  blocked: red
+OPENAI_API_KEY: xxxx
+PINECONE_API_KEY: xxxx
+TRELLO_KEY: xxxx
+TRELLO_SECRET: xxxx
+TRELLO_TOKEN: xxxx
+SERPAPI_API_KEY: xxxx
+WEBDRIVER_PATH: xxxx
