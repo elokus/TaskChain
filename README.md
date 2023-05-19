@@ -46,9 +46,12 @@ Now, you're all set to use TaskChain! Refer to the Usage section to get started.
 
 To help you get started, we've provided some examples in the form of Jupyter notebooks:
 
-1. [Decomposer - Break Down a Task into Pipelines](https://github.com/yourusername/TaskChain/blob/main/path_to/decomposer_notebook.ipynb): This notebook illustrates how you can use TaskChain's Decomposer to break down complex tasks into manageable pipelines.
-2. [Run a Pipeline Manager](https://github.com/yourusername/TaskChain/blob/main/path_to/pipeline_manager_notebook.ipynb): This notebook guides you through the process of setting up and running a Pipeline Manager, one of the key features of TaskChain.
-3. [Run a Project Manager](https://github.com/yourusername/TaskChain/blob/main/path_to/project_manager_notebook.ipynb): This notebook demonstrates how to set up and run a Project Manager, another fundamental feature of TaskChain.
+1. [Decomposer - Break Down a Task into Pipelines](https://github.com/elokus/TaskChain/blob/master/docs/showcase/break_down_task.ipynb):
+   This notebook illustrates how you can use TaskChain's Decomposer to break down complex tasks into manageable
+   pipelines.
+2. [Run a Pipeline Manager](https://github.com/elokus/TaskChain/blob/master/docs/showcase/showcase-pipeline.ipynb): This
+   notebook guides you through the process of setting up and running a Pipeline Manager, one of the key features of
+   TaskChain.
 
 ## Contributing
 
