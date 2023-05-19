@@ -1,0 +1,1 @@
+from taskchain.tools.research.tool import ResearchTool
