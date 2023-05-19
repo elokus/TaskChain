@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from typing import Dict, List, Optional, Union
 
-import taskchain.prompts.project as prompts
 from colorama import Fore
 from langchain import LLMChain, PromptTemplate, BasePromptTemplate
 from langchain.base_language import BaseLanguageModel
@@ -12,9 +11,6 @@ from langchain.chains.base import Chain
 from langchain.llms.base import BaseLLM
 
 import taskchain.interaction as interact
-
-PIPELINE_INIT = prompts.pipeline_init.PROMPT
-PIPELINE_PROPOSAL = prompts.pipeline_init.PROMPT_PROPOSAL
 
 
 class SuggestionChain(Chain):
@@ -84,8 +80,6 @@ class SuggestionChain(Chain):
             else:
                 print(Fore.CYAN + output_log)
 
-
-
         selected = interact.select_option_cta_only(options=[n for n, sel in enumerate(selection)])
 
         return {self.output_key: selection[selected]}
@@ -103,8 +97,8 @@ class SuggestionChain(Chain):
     @classmethod
     def from_llm(
             cls,
+            prompt: PromptTemplate,
             llm: BaseLLM = None,
-            prompt: PromptTemplate = PIPELINE_INIT,
             choices: int = 3,
             is_feedback: bool = True,
             verbose: bool = True,
