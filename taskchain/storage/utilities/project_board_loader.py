@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import Union
 
-from taskchain.integrations.trello import TrelloBoard
+import taskchain.integrations.trello as trello
 from taskchain.storage.base import BaseProjectBoard
 
 TYPE_TO_PROJECT_BOARD = {
-    "TrelloBoard": TrelloBoard
+    "TrelloBoard": trello.TrelloBoard
 }
 
 def load_project_board(data: dict) -> Union[BaseProjectBoard, None]:
