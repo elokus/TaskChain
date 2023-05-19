@@ -2,3 +2,5 @@
 /.env
 /pyproject.toml
 /.pypirc
+/dist
+/taskchain.egg-info
